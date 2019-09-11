@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const TodoList = (props) => {
-    console.log(props);
+const TodoList = ({todos, addTodo}) => {
     return (
-    <ul>
-        {props.todos.map(todo => <li key={todo.id}>{todo.text}</li>)}
-    </ul>
+        <>
+            <ul>
+                {todos.map(todo => <li key={todo.id}>{todo.text}</li>)}
+            </ul>
+            <button onClick={() => addTodo('New Todo Added')}>Adicionar Todo</button>
+        </>
     );
 };
 
@@ -21,5 +23,9 @@ TodoList.propTypes = {
 const mapStateToProps = state => ({
     todos: state.todos
 });
+ 
+const mapDispatchToProps = dispatch => ({
+    addTodo: text => dispatch({type: 'ADD_TODO', payload:{ text: text}})
+});
 
-export default connect(mapStateToProps)(TodoList);
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
